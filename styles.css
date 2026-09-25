@@ -818,3 +818,15 @@ body{
   .site-firework-head,.site-firework-tail-spark{display:none!important}
 }
 
+/* Optical centering for feature icons with asymmetric shapes. */
+.crowd-pressure-icon svg{
+  width:23px;
+  height:23px;
+  transform:translateY(1px);
+}
+.your-way-icon svg{
+  width:23px;
+  height:23px;
+  transform:translate(.25px,-.25px);
+}
+
