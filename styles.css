@@ -289,7 +289,7 @@ h1 span,h2 span{color:var(--blue)}
 }
 .feature-heading{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .feature-heading small,.preview-label{color:var(--blue);font-size:.65rem;font-weight:800;letter-spacing:.09em}
-.feature-icon svg{width:24px;height:24px}
+.feature-icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .feature-preview{width:100%;margin-top:22px;padding-top:16px;border-top:1px solid var(--hair)}
 .preview-label{display:block;color:var(--muted);font-size:.58rem}
 .preview-content{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:.82rem;color:var(--muted)}
@@ -818,26 +818,4 @@ body{
   .site-firework-head,.site-firework-tail-spark{display:none!important}
 }
 
-/* Optical centering for feature icons with asymmetric shapes. */
-.crowd-pressure-icon svg{
-  width:26px;
-  height:26px;
-  transform:translateY(.5px);
-  stroke-width:1.9;
-}
-.crowd-pressure-icon svg circle{
-  fill:currentColor;
-  stroke:none;
-}
-.your-way-icon svg{
-  width:25px;
-  height:25px;
-  transform:translateY(.25px);
-  stroke-width:1.85;
-}
-.your-way-icon svg circle{
-  fill:var(--bg);
-  stroke:currentColor;
-  stroke-width:1.85;
-}
 
