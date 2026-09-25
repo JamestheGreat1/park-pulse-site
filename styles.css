@@ -730,3 +730,91 @@ body{
   .seasonal-particle,.seasonal-layer:before,.site-firework-spark{display:none!important}
 }
 
+/* July 4 rocket heads + persistent independent trails. */
+.site-firework-head{
+  position:absolute;
+  left:-2px;
+  top:-2px;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 4px currentColor,0 0 9px currentColor;
+  opacity:0;
+  z-index:3;
+  animation:site-firework-head-flight var(--fw-duration,7s) cubic-bezier(.22,.58,.25,1) infinite;
+  animation-delay:var(--fw-delay,0s);
+  will-change:transform,opacity;
+}
+@keyframes site-firework-head-flight{
+  0%,26%{opacity:0;transform:translate3d(var(--rocket-x0),85vh,0) scale(.82)}
+  30%{opacity:.24}
+  36%{opacity:.78}
+  45%{opacity:.98}
+  51%{opacity:1}
+  54%{opacity:.92}
+  55%{opacity:0;transform:translate3d(0,0,0) scale(1)}
+  100%{opacity:0;transform:translate3d(0,0,0) scale(1)}
+}
+.site-firework-spark{z-index:2}
+
+.site-firework-tail-spark{
+  position:absolute;
+  width:var(--tail-size);
+  height:var(--tail-size);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:1;
+  opacity:0;
+  animation:site-firework-tail-fall var(--tail-life) cubic-bezier(.18,.68,.28,1) forwards;
+  will-change:transform,opacity;
+}
+.site-firework-tail-spark>i{
+  position:absolute;
+  inset:0;
+  display:block;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 4px currentColor;
+  animation:site-firework-tail-twinkle var(--tail-twinkle) ease-in-out infinite;
+}
+.site-firework-tail-spark.star:after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:
+    0 -5px 4px -1px rgba(255,255,255,.96),
+    0 5px 4px -1px rgba(255,255,255,.82),
+    -5px 0 4px -1px rgba(255,255,255,.90),
+    5px 0 4px -1px rgba(255,255,255,.90);
+  transform:translate(-50%,-50%) scale(.18);
+  opacity:0;
+  animation:site-firework-tail-star var(--tail-life) ease-in-out forwards;
+}
+@keyframes site-firework-tail-fall{
+  0%{opacity:.96;transform:translate3d(0,0,0) scale(.72)}
+  28%{opacity:.92;transform:translate3d(var(--tail-dx1),var(--tail-dy1),0) scale(1)}
+  60%{opacity:.68;transform:translate3d(var(--tail-dx2),var(--tail-dy2),0) scale(.88)}
+  100%{opacity:0;transform:translate3d(var(--tail-dx3),var(--tail-dy3),0) scale(.52)}
+}
+@keyframes site-firework-tail-twinkle{
+  0%,100%{opacity:.48;transform:scale(.72);filter:brightness(.9) drop-shadow(0 0 1px currentColor)}
+  19%{opacity:1;transform:scale(1.1);filter:brightness(1.58) drop-shadow(0 0 4px currentColor)}
+  42%{opacity:.62;transform:scale(.84);filter:brightness(1.02) drop-shadow(0 0 2px currentColor)}
+  68%{opacity:.96;transform:scale(1.2);filter:brightness(1.72) drop-shadow(0 0 5px currentColor)}
+  84%{opacity:.56;transform:scale(.8);filter:brightness(.96) drop-shadow(0 0 2px currentColor)}
+}
+@keyframes site-firework-tail-star{
+  0%,26%,100%{opacity:0;transform:translate(-50%,-50%) scale(.16)}
+  40%{opacity:.92;transform:translate(-50%,-50%) scale(1.08)}
+  55%{opacity:.12;transform:translate(-50%,-50%) scale(.44)}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-firework-head,.site-firework-tail-spark{display:none!important}
+}
+

@@ -87,6 +87,111 @@
     return value - Math.floor(value);
   };
 
+
+  let fireworkEmitterFrame = 0;
+  let fireworkEmitterLastFrame = 0;
+  let fireworkEmitterCounter = 0;
+  const fireworkEmitterLastByHead = new WeakMap();
+
+  const removeFireworkTrailSparks = () => {
+    layer?.querySelectorAll(".site-firework-tail-spark").forEach((spark) => spark.remove());
+  };
+
+  const stopFireworkEmitter = () => {
+    if (fireworkEmitterFrame) cancelAnimationFrame(fireworkEmitterFrame);
+    fireworkEmitterFrame = 0;
+    fireworkEmitterLastFrame = 0;
+    removeFireworkTrailSparks();
+  };
+
+  const emitFireworkTrailSpark = (fieldRect, head, rocketIndex) => {
+    if (!layer || !head.isConnected || !head.getClientRects().length) return;
+    const firework = head.closest(".site-firework");
+    if (!firework || getComputedStyle(firework).display === "none") return;
+
+    const opacity = Number.parseFloat(getComputedStyle(head).opacity || "0");
+    if (opacity < .16) return;
+
+    const rect = head.getBoundingClientRect();
+    const x = rect.left - fieldRect.left + rect.width / 2;
+    const y = rect.top - fieldRect.top + rect.height / 2;
+    if (x < -20 || x > fieldRect.width + 20 || y < -20 || y > fieldRect.height + 20) return;
+
+    const seed = ++fireworkEmitterCounter + rocketIndex * 101;
+    const jitterX = (seeded(seed * 1.7) - .5) * 8;
+    const jitterY = (seeded(seed * 2.3) - .5) * 5;
+    const driftX = (seeded(seed * 3.1) - .5) * 16;
+    const fallY = 9 + seeded(seed * 4.3) * 18;
+    const size = 2 + seeded(seed * 5.9) * 2.7;
+    const life = .62 + seeded(seed * 6.7) * .34;
+    const twinkle = .28 + seeded(seed * 7.9) * .34;
+    const star = seeded(seed * 8.7) > .78;
+
+    const spark = document.createElement("span");
+    spark.className = "site-firework-tail-spark" + (star ? " star" : "");
+    spark.style.left = (x + jitterX - size / 2).toFixed(1) + "px";
+    spark.style.top = (y + jitterY - size / 2).toFixed(1) + "px";
+    spark.style.color = getComputedStyle(firework).color;
+    spark.style.setProperty("--tail-size", size.toFixed(1) + "px");
+    spark.style.setProperty("--tail-life", life.toFixed(2) + "s");
+    spark.style.setProperty("--tail-twinkle", twinkle.toFixed(2) + "s");
+    spark.style.setProperty("--tail-dx1", (driftX * .28).toFixed(1) + "px");
+    spark.style.setProperty("--tail-dy1", (fallY * .18).toFixed(1) + "px");
+    spark.style.setProperty("--tail-dx2", (driftX * .62).toFixed(1) + "px");
+    spark.style.setProperty("--tail-dy2", (fallY * .52).toFixed(1) + "px");
+    spark.style.setProperty("--tail-dx3", driftX.toFixed(1) + "px");
+    spark.style.setProperty("--tail-dy3", fallY.toFixed(1) + "px");
+    spark.innerHTML = "<i></i>";
+    layer.appendChild(spark);
+
+    const cleanup = (event) => {
+      if (event.animationName !== "site-firework-tail-fall") return;
+      spark.removeEventListener("animationend", cleanup);
+      spark.remove();
+    };
+    spark.addEventListener("animationend", cleanup);
+    window.setTimeout(() => spark.remove(), Math.ceil(life * 1000) + 250);
+  };
+
+  const fireworkEmitterTick = (now) => {
+    fireworkEmitterFrame = 0;
+    if (root.dataset.season !== "july4" ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        !layer) {
+      stopFireworkEmitter();
+      return;
+    }
+
+    if (now - fireworkEmitterLastFrame >= 36) {
+      fireworkEmitterLastFrame = now;
+      const fieldRect = layer.getBoundingClientRect();
+      layer.querySelectorAll(".site-firework-head").forEach((head, index) => {
+        const last = fireworkEmitterLastByHead.get(head) || 0;
+        const interval = 48 + (index % 3) * 7;
+        if (now - last >= interval) {
+          fireworkEmitterLastByHead.set(head, now);
+          emitFireworkTrailSpark(fieldRect, head, index);
+        }
+      });
+    }
+
+    fireworkEmitterFrame = requestAnimationFrame(fireworkEmitterTick);
+  };
+
+  const syncFireworkEmitter = () => {
+    const enabled =
+      root.dataset.season === "july4" &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!enabled) {
+      stopFireworkEmitter();
+      return;
+    }
+    if (!fireworkEmitterFrame) {
+      fireworkEmitterFrame = requestAnimationFrame(fireworkEmitterTick);
+    }
+  };
+
   const buildParticles = () => {
     if (!layer || layer.dataset.ready === "true") return;
     layer.dataset.ready = "true";
@@ -114,6 +219,14 @@
       firework.style.setProperty("--fw-left", (16 + seeded(f * 4.2 + 1) * 68).toFixed(1) + "%");
       firework.style.setProperty("--fw-top", (12 + seeded(f * 5.4 + 2) * 42).toFixed(1) + "%");
       firework.style.setProperty("--fw-color", colors[f % colors.length]);
+      firework.style.setProperty("--fw-duration", (6.8 + f * .55).toFixed(2) + "s");
+      firework.style.setProperty("--fw-delay", (-f * 1.35).toFixed(2) + "s");
+      firework.style.setProperty("--rocket-x0", ((seeded(f * 7.9 + 3) - .5) * 34).toFixed(1) + "px");
+
+      const head = document.createElement("b");
+      head.className = "site-firework-head";
+      firework.appendChild(head);
+
       for (let i = 0; i < 16; i += 1) {
         const spark = document.createElement("i");
         spark.className = "site-firework-spark";
@@ -121,8 +234,6 @@
         const distance = 36 + seeded((f + 1) * 200 + i) * 34;
         spark.style.setProperty("--dx", (Math.cos(angle) * distance).toFixed(1) + "px");
         spark.style.setProperty("--dy", (Math.sin(angle) * distance + 9).toFixed(1) + "px");
-        spark.style.setProperty("--fw-duration", (6.8 + f * .55).toFixed(2) + "s");
-        spark.style.setProperty("--fw-delay", (-f * 1.35).toFixed(2) + "s");
         firework.appendChild(spark);
       }
       layer.appendChild(firework);
@@ -172,6 +283,7 @@
 
   const applySeason = () => {
     root.dataset.season = currentSeason();
+    syncFireworkEmitter();
   };
 
   let logoTaps = [];
