@@ -449,3 +449,284 @@ h1 span,h2 span{color:var(--blue)}
   .feature-card:hover{transform:translateY(-3px);border-color:rgba(var(--blue-rgb),.22)}
   .steps article:hover{background:rgba(12,26,48,.94)}
 }
+
+/* ParkPulse 1.8 landing refresh — black canvas, accent-driven glass, seasonal ambience. */
+:root{
+  --bg:#000;
+  --bg2:#000;
+  --glass:rgba(255,255,255,.055);
+  --glass-strong:rgba(255,255,255,.095);
+  --border:rgba(255,255,255,.16);
+  --hair:rgba(255,255,255,.085);
+  --shadow:0 26px 84px rgba(0,0,0,.46);
+  --season-glow1:transparent;
+  --season-glow2:transparent;
+  --season-glow3:transparent;
+}
+html{background:#000}
+body{
+  background:
+    radial-gradient(circle at 84% 4%,rgba(var(--blue2-rgb),.16),transparent 35rem),
+    radial-gradient(circle at 7% 52%,rgba(var(--blue-rgb),.075),transparent 32rem),
+    #000;
+}
+.ambient-one{background:rgb(var(--blue2-rgb));opacity:.27}
+.ambient-two{background:rgb(var(--blue-rgb));opacity:.11}
+.ambient-three{background:#38d9c3;opacity:.08}
+.liquid-glass{
+  background:
+    radial-gradient(110% 74% at 14% -10%,rgba(255,255,255,.13),transparent 48%),
+    linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.012) 42%,rgba(var(--blue-rgb),.025)),
+    var(--glass);
+  border-color:rgba(255,255,255,.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 1px 0 0 rgba(255,255,255,.08),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    var(--shadow);
+  backdrop-filter:blur(20px) saturate(190%) contrast(106%);
+  -webkit-backdrop-filter:blur(20px) saturate(190%) contrast(106%);
+}
+.phone{
+  background:
+    radial-gradient(120% 70% at 12% -4%,rgba(255,255,255,.10),transparent 44%),
+    linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018) 40%,rgba(var(--blue-rgb),.026)),
+    rgba(0,0,0,.66);
+  border-color:rgba(255,255,255,.20);
+  backdrop-filter:blur(24px) saturate(190%);
+  -webkit-backdrop-filter:blur(24px) saturate(190%);
+}
+.phone-card,.ride-card,.phone-toolbar span,.phone-toolbar b{
+  background:rgba(255,255,255,.045);
+}
+.phone-nav{
+  background:rgba(8,8,10,.54);
+  border-color:rgba(255,255,255,.16);
+  backdrop-filter:blur(24px) saturate(185%);
+  -webkit-backdrop-filter:blur(24px) saturate(185%);
+}
+.steps article{background:rgba(7,7,9,.78)}
+.comparison-demo{background:rgba(0,0,0,.26)}
+.glass-preview{display:flex;align-items:center;gap:5px}
+.glass-preview b{
+  font-size:.59rem;
+  padding:5px 7px;
+  border-radius:8px;
+  border:1px solid var(--hair);
+  background:rgba(255,255,255,.045);
+  color:var(--muted);
+}
+.glass-preview b:last-child{
+  color:var(--text);
+  border-color:rgba(var(--blue-rgb),.22);
+  background:rgba(255,255,255,.065);
+  box-shadow:inset 0 1px rgba(255,255,255,.12);
+}
+@media(hover:hover) and (pointer:fine){
+  .steps article:hover{background:rgba(11,11,14,.88)}
+}
+
+/* Seasonal layer stays behind all content but above the static ambient blobs. */
+.seasonal-layer{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 16%,var(--season-glow1),transparent 36%),
+    radial-gradient(circle at 91% 22%,var(--season-glow2),transparent 35%),
+    radial-gradient(circle at 58% 92%,var(--season-glow3),transparent 42%);
+}
+.seasonal-particle{
+  position:absolute;
+  left:var(--left);
+  top:var(--top,-10vh);
+  width:var(--size,5px);
+  height:var(--size,5px);
+  opacity:.58;
+  pointer-events:none;
+  animation-delay:var(--delay);
+  animation-duration:var(--duration);
+  animation-iteration-count:infinite;
+  animation-timing-function:linear;
+}
+
+/* Halloween */
+:root[data-season="halloween"]{
+  --season-glow1:rgba(116,54,207,.23);
+  --season-glow2:rgba(255,108,28,.16);
+  --season-glow3:rgba(88,54,148,.15);
+}
+:root[data-season="halloween"] .seasonal-particle{
+  width:1.5px;
+  height:58px;
+  border-radius:999px;
+  background:linear-gradient(180deg,rgba(185,199,255,0),rgba(185,199,255,.42),rgba(185,199,255,0));
+  transform:rotate(13deg);
+  animation-name:site-rain;
+  opacity:.34;
+}
+:root[data-season="halloween"] .seasonal-layer:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;height:30vh;
+  opacity:0;
+  background:radial-gradient(ellipse at 76% 0%,rgba(235,239,255,.34),transparent 44%);
+  mix-blend-mode:screen;
+  animation:site-lightning 14s linear infinite;
+}
+@keyframes site-rain{
+  from{transform:translate3d(70px,-20vh,0) rotate(13deg)}
+  to{transform:translate3d(-95px,125vh,0) rotate(13deg)}
+}
+@keyframes site-lightning{
+  0%,72%,73.1%,74.2%,100%{opacity:0}
+  72.35%{opacity:.22}
+  72.7%{opacity:.06}
+  73.45%{opacity:.29}
+  73.8%{opacity:.04}
+}
+
+/* Fall / Thanksgiving */
+:root[data-season="fall"]{
+  --season-glow1:rgba(210,116,42,.18);
+  --season-glow2:rgba(164,72,37,.13);
+  --season-glow3:rgba(228,167,70,.11);
+}
+:root[data-season="fall"] .seasonal-particle{
+  width:var(--leaf-w,10px);
+  height:var(--leaf-h,7px);
+  border-radius:78% 12% 72% 18%;
+  background:var(--leaf,#d8873a);
+  filter:drop-shadow(0 2px 2px rgba(46,22,8,.18));
+  transform-origin:45% 50%;
+  animation-name:site-leaf;
+  opacity:.78;
+}
+@keyframes site-leaf{
+  0%{transform:translate3d(-14px,-12vh,0) rotate3d(.4,1,.2,0deg);opacity:0}
+  8%{opacity:.78}
+  30%{transform:translate3d(20px,30vh,0) rotate3d(.8,.4,.3,165deg)}
+  57%{transform:translate3d(-14px,62vh,0) rotate3d(.3,.8,.5,335deg)}
+  80%{transform:translate3d(26px,88vh,0) rotate3d(.7,.3,.8,490deg);opacity:.68}
+  100%{transform:translate3d(4px,122vh,0) rotate3d(.5,.9,.4,650deg);opacity:0}
+}
+
+/* Christmas */
+:root[data-season="christmas"]{
+  --season-glow1:rgba(21,126,91,.17);
+  --season-glow2:rgba(184,39,60,.14);
+  --season-glow3:rgba(236,188,75,.10);
+}
+:root[data-season="christmas"] .seasonal-particle{
+  border-radius:50%;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 0 8px rgba(255,255,255,.22);
+  animation-name:site-snow;
+  opacity:.52;
+}
+@keyframes site-snow{
+  from{transform:translate3d(-8px,-12vh,0) rotate(0);opacity:0}
+  10%{opacity:.52}
+  to{transform:translate3d(26px,120vh,0) rotate(190deg);opacity:.06}
+}
+
+/* Easter */
+:root[data-season="easter"]{
+  --season-glow1:rgba(255,155,201,.17);
+  --season-glow2:rgba(164,137,255,.17);
+  --season-glow3:rgba(119,225,183,.12);
+}
+:root[data-season="easter"] .seasonal-particle{
+  width:8px;height:5px;
+  border-radius:70% 30% 70% 30%;
+  background:var(--petal,#ffb6d9);
+  animation-name:site-petal;
+  opacity:.52;
+}
+@keyframes site-petal{
+  from{transform:translate3d(-20px,-10vh,0) rotate(0);opacity:0}
+  10%{opacity:.52}
+  50%{transform:translate3d(25px,54vh,0) rotate(180deg)}
+  to{transform:translate3d(-12px,116vh,0) rotate(360deg);opacity:0}
+}
+
+/* Fourth of July */
+:root[data-season="july4"]{
+  --season-glow1:rgba(42,116,255,.20);
+  --season-glow2:rgba(229,63,80,.17);
+  --season-glow3:rgba(255,255,255,.07);
+}
+:root[data-season="july4"] .seasonal-particle{
+  width:3px;height:3px;border-radius:50%;
+  background:var(--spark,#fff);
+  box-shadow:0 0 8px currentColor;
+  animation-name:site-twinkle;
+}
+@keyframes site-twinkle{
+  0%,100%{opacity:.04;transform:scale(.5)}
+  50%{opacity:.72;transform:scale(1.15)}
+}
+.site-firework{
+  position:absolute;
+  left:var(--fw-left);
+  top:var(--fw-top);
+  width:1px;height:1px;
+  display:none;
+  color:var(--fw-color,#fff);
+}
+:root[data-season="july4"] .site-firework{display:block}
+.site-firework-spark{
+  position:absolute;
+  left:0;top:0;
+  width:3px;height:3px;border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 8px currentColor;
+  opacity:0;
+  animation:site-firework-burst var(--fw-duration,7s) ease-out infinite;
+  animation-delay:var(--fw-delay,0s);
+}
+@keyframes site-firework-burst{
+  0%,52%{opacity:0;transform:translate3d(0,0,0) scale(.35)}
+  55%{opacity:1}
+  72%{opacity:.72}
+  82%,100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) scale(.75)}
+}
+
+/* Secret seasonal switcher — intentionally hidden until the logo is tapped five times. */
+.season-switcher{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:50;
+  width:min(330px,calc(100% - 36px));
+  padding:12px;
+  border-radius:20px;
+}
+.season-switcher[hidden]{display:none!important}
+.season-switcher-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+.season-switcher-head strong{font-size:.78rem}
+.season-switcher-head button{border:0;background:transparent;color:var(--muted);font-size:1.1rem}
+.season-switcher-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.season-switcher-grid button{
+  min-height:36px;
+  border:1px solid var(--hair);
+  border-radius:11px;
+  background:rgba(255,255,255,.035);
+  color:var(--muted);
+  font-size:.72rem;
+  font-weight:800;
+}
+.season-switcher-grid button.active{
+  color:var(--text);
+  border-color:rgba(var(--blue-rgb),.26);
+  background:rgba(var(--blue-rgb),.075);
+}
+@media(max-width:640px){
+  .season-switcher{right:12px;bottom:12px;width:calc(100% - 24px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .seasonal-particle,.seasonal-layer:before,.site-firework-spark{display:none!important}
+}
+
