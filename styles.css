@@ -820,13 +820,24 @@ body{
 
 /* Optical centering for feature icons with asymmetric shapes. */
 .crowd-pressure-icon svg{
-  width:23px;
-  height:23px;
-  transform:translateY(1px);
+  width:26px;
+  height:26px;
+  transform:translateY(.5px);
+  stroke-width:1.9;
+}
+.crowd-pressure-icon svg circle{
+  fill:currentColor;
+  stroke:none;
 }
 .your-way-icon svg{
-  width:23px;
-  height:23px;
-  transform:translate(.25px,-.25px);
+  width:25px;
+  height:25px;
+  transform:translateY(.25px);
+  stroke-width:1.85;
+}
+.your-way-icon svg circle{
+  fill:var(--bg);
+  stroke:currentColor;
+  stroke-width:1.85;
 }
 
