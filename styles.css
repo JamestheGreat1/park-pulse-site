@@ -818,4 +818,42 @@ body{
   .site-firework-head,.site-firework-tail-spark{display:none!important}
 }
 
+/* Data-provider attribution. */
+.data-attribution{
+  position:relative;
+  z-index:1;
+  padding:0 0 28px;
+}
+.data-attribution-panel{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:12px 18px;
+  border-radius:18px;
+  color:var(--muted);
+  font-size:.73rem;
+  font-weight:650;
+  text-align:center;
+  box-shadow:inset 0 1px rgba(255,255,255,.12),0 12px 34px rgba(0,0,0,.18);
+}
+.data-attribution-panel a{
+  color:var(--text);
+  font-weight:800;
+  text-decoration:none;
+}
+.data-attribution-panel a:hover{text-decoration:underline}
+.data-attribution-dot{
+  width:6px;
+  height:6px;
+  flex:0 0 6px;
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 12px rgba(var(--blue-rgb),.52);
+}
+@media(max-width:640px){
+  .data-attribution{padding-bottom:22px}
+  .data-attribution-panel{font-size:.68rem;line-height:1.5}
+}
 

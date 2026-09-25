@@ -212,28 +212,42 @@
       layer.appendChild(p);
     }
 
-    const colors = ["#ff7785","#73b8ff","#ffffff","#ffd56b"];
-    for (let f = 0; f < 4; f += 1) {
+    const colors = ["#ff7785","#73b8ff","#ffffff","#ffd56b","#ff8a70","#9cc9ff","#ffffff"];
+    const fireworkCount = 7;
+    const zoneWidth = 100 / fireworkCount;
+    for (let f = 0; f < fireworkCount; f += 1) {
       const firework = document.createElement("span");
       firework.className = "site-firework";
-      firework.style.setProperty("--fw-left", (16 + seeded(f * 4.2 + 1) * 68).toFixed(1) + "%");
-      firework.style.setProperty("--fw-top", (12 + seeded(f * 5.4 + 2) * 42).toFixed(1) + "%");
-      firework.style.setProperty("--fw-color", colors[f % colors.length]);
-      firework.style.setProperty("--fw-duration", (6.8 + f * .55).toFixed(2) + "s");
-      firework.style.setProperty("--fw-delay", (-f * 1.35).toFixed(2) + "s");
-      firework.style.setProperty("--rocket-x0", ((seeded(f * 7.9 + 3) - .5) * 34).toFixed(1) + "px");
+
+      // Randomize each load, but keep one firework in each horizontal zone so
+      // the display fills the viewport instead of accidentally bunching up.
+      const zoneInset = zoneWidth * (.18 + Math.random() * .64);
+      const left = zoneWidth * f + zoneInset;
+      const top = 7 + Math.random() * 49;
+      const duration = 6.5 + Math.random() * 2.8;
+      const delay = -(Math.random() * duration);
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      firework.style.setProperty("--fw-left", left.toFixed(1) + "%");
+      firework.style.setProperty("--fw-top", top.toFixed(1) + "%");
+      firework.style.setProperty("--fw-color", color);
+      firework.style.setProperty("--fw-duration", duration.toFixed(2) + "s");
+      firework.style.setProperty("--fw-delay", delay.toFixed(2) + "s");
+      firework.style.setProperty("--rocket-x0", ((Math.random() - .5) * 50).toFixed(1) + "px");
 
       const head = document.createElement("b");
       head.className = "site-firework-head";
       firework.appendChild(head);
 
-      for (let i = 0; i < 16; i += 1) {
+      const sparkCount = 15 + Math.floor(Math.random() * 5);
+      const burstRotation = Math.random() * Math.PI * 2;
+      for (let i = 0; i < sparkCount; i += 1) {
         const spark = document.createElement("i");
         spark.className = "site-firework-spark";
-        const angle = Math.PI * 2 * i / 16 + seeded((f + 1) * 100 + i) * .18;
-        const distance = 36 + seeded((f + 1) * 200 + i) * 34;
+        const angle = burstRotation + Math.PI * 2 * i / sparkCount + (Math.random() - .5) * .20;
+        const distance = 36 + Math.random() * 42;
         spark.style.setProperty("--dx", (Math.cos(angle) * distance).toFixed(1) + "px");
-        spark.style.setProperty("--dy", (Math.sin(angle) * distance + 9).toFixed(1) + "px");
+        spark.style.setProperty("--dy", (Math.sin(angle) * distance + 9 + Math.random() * 7).toFixed(1) + "px");
         firework.appendChild(spark);
       }
       layer.appendChild(firework);
