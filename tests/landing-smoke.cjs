@@ -32,9 +32,9 @@ const { chromium } = require("playwright");
     assert.deepEqual(actualNavPaths, appNavPaths, "All four preview icons match the actual app SVGs");
     assert.equal(await page.locator(".phone-nav svg circle").count(),1,"Settings retains its correct gear center");
     const navGraphics = await page.locator(".phone-nav svg").evaluateAll(nodes =>
-      nodes.map(el=>({width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height,stroke:getComputedStyle(el).stroke}))
+      nodes.map(el=>({width:getComputedStyle(el).width,height:getComputedStyle(el).height,stroke:getComputedStyle(el).stroke}))
     );
-    assert(navGraphics.every(x=>x.width===22&&x.height===22&&x.stroke!=="none"),
+    assert(navGraphics.every(x=>x.width==="22px"&&x.height==="22px"&&x.stroke!=="none"),
       "SVGs must render as 22px outlined app icons");
 
     const resort = (key) => page.locator('[data-preview-resort="' + key + '"]');
