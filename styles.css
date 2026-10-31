@@ -929,7 +929,8 @@ body{
 }
 @media(max-width:380px){
   .hero-scope{gap:8px;font-size:.71rem}
-  .phone{min-height:690px}
+  .phone{width:min(280px,calc(100vw - 48px));min-height:690px;transform:none}
+  .glow-ring{width:min(300px,90vw);height:300px}
   .park-tabs button{font-size:.56rem}
   .preview-resort-picker button{font-size:.59rem}
   .section-row strong{font-size:.85rem}
