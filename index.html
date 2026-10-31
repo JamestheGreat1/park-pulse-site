@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="ParkPulse watches Walt Disney World ride waits, crowd pressure, and reopenings so you can spend less time refreshing and more time in the parks.">
+  <meta name="description" content="ParkPulse tracks live ride waits, crowd pressure, and reopenings at Walt Disney World and Disneyland Resort. Six parks, 101 attractions, less refreshing.">
   <meta property="og:title" content="ParkPulse — Stop refreshing wait times.">
-  <meta property="og:description" content="Live waits, Best Now ride intelligence, crowd insights, and smart ride alerts for Walt Disney World.">
+  <meta property="og:description" content="Live waits and ride alerts for Walt Disney World and Disneyland Resort. Explore six parks and 101 tracked attractions.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://useparkpulse.com/">
   <meta name="twitter:card" content="summary">
@@ -42,11 +42,11 @@
   <main id="top">
     <section class="hero shell">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="live-dot"></span> Live park intelligence</div>
+        <div class="eyebrow"><span class="live-dot"></span> ParkPulse 2.0 · Florida + California</div>
         <h1>Stop refreshing<br><span>wait times.</span></h1>
         <p class="hero-lede">
-          ParkPulse keeps an eye on the parks so you don't have to. Check live waits,
-          see what's actually a good deal, or set a watch and let it buzz you when the timing gets better.
+          From Walt Disney World to Disneyland Resort, ParkPulse keeps an eye on the waits
+          so you don't have to. Find a good time to ride, set a watch, and get back to enjoying the park.
         </p>
 
         <div class="hero-actions">
@@ -57,12 +57,18 @@
           <a class="button secondary" href="#features">See what it does</a>
         </div>
 
+        <div class="hero-scope" aria-label="ParkPulse covers two resorts, six parks, and 101 attractions">
+          <span><strong>2</strong> resorts</span><i aria-hidden="true"></i>
+          <span><strong>6</strong> parks</span><i aria-hidden="true"></i>
+          <span><strong>101</strong> attractions</span>
+        </div>
+
         <div class="hero-meta" aria-label="ParkPulse platform support">
           <span>iPhone</span><i></i><span>Android</span><i></i><span>Desktop</span>
         </div>
       </div>
 
-      <div class="app-showcase" aria-label="Preview of ParkPulse">
+      <div class="app-showcase" aria-label="Interactive example of ParkPulse. Sample wait times, not live data.">
         <div class="glow-ring" aria-hidden="true"></div>
         <div class="phone liquid-glass">
           <div class="phone-top">
@@ -73,55 +79,65 @@
             <div class="refresh-icon" aria-hidden="true">↻</div>
           </div>
 
-          <div class="phone-card hero-mini">
-            <small>Walt Disney World</small>
-            <strong>Stop refreshing wait times.</strong>
-            <span>We'll watch the ride and buzz you when it's worth it.</span>
+          <div class="preview-resort-picker" role="group" aria-label="Choose a resort in this example">
+            <button type="button" data-preview-resort="wdw" aria-pressed="true">Walt Disney World</button>
+            <button type="button" data-preview-resort="dlr" aria-pressed="false">Disneyland Resort</button>
           </div>
 
-          <div class="park-tabs" aria-hidden="true">
-            <span class="active">🏰 MK</span><span>🌐 EPCOT</span><span>🎬 DHS</span><span>🌿 AK</span>
+          <div class="phone-card hero-mini">
+            <small data-preview-resort-name>Walt Disney World</small>
+            <strong>Stop refreshing wait times.</strong>
+            <span>Pick a wait you'd actually take. We'll keep an eye on it.</span>
+          </div>
+
+          <div class="park-tabs" role="group" aria-label="Select an example park" data-preview-park-tabs>
+            <button type="button" class="active" data-preview-park="mk" aria-pressed="true">🏰 MK</button>
+            <button type="button" data-preview-park="epcot" aria-pressed="false">🌐 EPCOT</button>
+            <button type="button" data-preview-park="dhs" aria-pressed="false">🎬 DHS</button>
+            <button type="button" data-preview-park="ak" aria-pressed="false">🌿 AK</button>
           </div>
 
           <div class="phone-toolbar" aria-hidden="true">
-            <span>⌕ Search Magic Kingdom</span>
+            <span data-preview-search>⌕ Search Magic Kingdom</span>
             <b>Best now</b>
           </div>
 
           <div class="section-row">
-            <div><small>LIVE WAITS</small><strong>Magic Kingdom</strong></div>
-            <span class="crowd-pill">5 · Moderate</span>
+            <div><small>EXAMPLE WAITS</small><strong data-preview-park-name>Magic Kingdom</strong></div>
+            <span class="crowd-pill" data-preview-crowd>5 · Moderate</span>
           </div>
 
-          <div class="ride-card">
+          <div class="ride-card" data-preview-ride="0">
             <div><small>TOMORROWLAND</small><strong>Space Mountain</strong><em>↓ 24% vs typical</em></div>
             <b>40 <small>min</small></b>
           </div>
-          <div class="ride-card">
+          <div class="ride-card" data-preview-ride="1">
             <div><small>FRONTIERLAND</small><strong>Tiana's Bayou Adventure</strong><span>Operating</span></div>
             <b>55 <small>min</small></b>
           </div>
-          <div class="ride-card">
+          <div class="ride-card" data-preview-ride="2">
             <div><small>FANTASYLAND</small><strong>Seven Dwarfs Mine Train</strong><span>Operating</span></div>
             <b>65 <small>min</small></b>
           </div>
+          <p class="preview-disclaimer">Illustrative preview · Not live wait times</p>
 
           <div class="phone-nav" aria-hidden="true">
             <span class="active">✦<small>Explore</small></span>
             <span>♢<small>Watching</small></span>
+            <span>◇<small>Resorts</small></span>
             <span>⚙<small>Settings</small></span>
           </div>
         </div>
 
         <div class="floating-card floating-alert liquid-glass" aria-hidden="true">
           <span class="bell">●</span>
-          <div><small>RIDE ALERT</small><strong>Space Mountain</strong><p>Wait dropped to 40 min</p></div>
+          <div><small>EXAMPLE ALERT</small><strong data-preview-alert-name>Space Mountain</strong><p data-preview-alert-text>Wait dropped to 40 min</p></div>
         </div>
 
         <div class="floating-card floating-crowd liquid-glass" aria-hidden="true">
           <small>CROWD TREND</small>
           <strong>↘ easing</strong>
-          <span>Magic Kingdom</span>
+          <span data-preview-crowd-park>Magic Kingdom</span>
         </div>
       </div>
     </section>
@@ -185,6 +201,13 @@
           <p>Use it on your phone, install it as a PWA, or open the wider desktop layout. Pick a theme, one of eight accents, Frosted or Liquid Glass, and call it a day.</p>
           <div class="feature-preview"><small class="preview-label">EXAMPLE</small><div class="preview-content"><span class="accent-swatches" aria-label="Blue, purple, pink, and green accents"><i></i><i></i><i></i><i></i></span><span class="glass-preview"><b>Frosted</b><b>Liquid</b></span><span class="device-preview"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="3" width="14" height="11" rx="2"/><path d="M6 18h6M9 14v4"/><rect x="16" y="9" width="6" height="12" rx="1.5"/></svg><span>Phone to desktop</span></span></div></div>
         </article>
+
+        <article class="feature-card liquid-glass">
+          <div class="feature-heading"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15"/></svg></span><small>TWO RESORTS</small></div>
+          <h3>Florida or California. Same app.</h3>
+          <p>Explore all six parks, jump between resorts in a tap, and keep favorites and ride watches together without starting over.</p>
+          <div class="feature-preview"><small class="preview-label">NOW IN PARKPULSE 2.0</small><div class="preview-content"><span class="resort-preview-chip">🏰 Walt Disney World</span><span class="resort-preview-chip">🎡 Disneyland Resort</span></div></div>
+        </article>
       </div>
     </section>
 
@@ -200,7 +223,7 @@
         <article>
           <div class="step-top"><span>01</span><div class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></div></div>
           <h3>Pick a park.</h3>
-          <p>Open ParkPulse and get the useful snapshot: live waits, crowd pressure, hours, and Best Now.</p>
+          <p>Choose Walt Disney World or Disneyland Resort, then get the useful snapshot: live waits, park hours, and Best Now.</p>
           <div class="step-preview"><b>LIVE</b><span>Best Now</span><span>Crowd 5/10</span></div>
         </article>
         <article>
@@ -227,7 +250,7 @@
         <div class="cta-copy">
           <div class="eyebrow">Ready when you are</div>
           <h2>Less refreshing.<br><span>More riding.</span></h2>
-          <p>Open it in your browser, or install it on your phone and treat it like an app.</p>
+          <p>Six parks, one place to check waits. Open it in your browser or install it on your phone.
           <div class="cta-meta"><span>iPhone</span><i></i><span>Android</span><i></i><span>Desktop</span><i></i><span>Free to use</span></div>
         </div>
         <a class="button primary large" href="https://app.useparkpulse.com/">
