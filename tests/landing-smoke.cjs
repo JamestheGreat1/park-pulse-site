@@ -18,6 +18,25 @@ const { chromium } = require("playwright");
     assert.match(await page.locator(".hero-scope").innerText(), /101 attractions/);
     assert.match(await page.locator(".preview-disclaimer").innerText(), /not live wait times/i);
 
+    // Identical vector geometry to the four real ParkPulse PWA navigation
+    // buttons. Font-dependent Unicode placeholders cannot pass this check.
+    const appNavPaths = [
+      "m12 3 2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3L12 3Z",
+      "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4",
+      "m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15",
+      "M9.02 4.79 L10.25 4.4 L10.17 2.58 L13.83 2.58 L13.75 4.4 L14.98 4.79 L16.13 5.39 L17.37 4.04 L19.96 6.63 L18.61 7.87 L19.21 9.02 L19.6 10.25 L21.42 10.17 L21.42 13.83 L19.6 13.75 L19.21 14.98 L18.61 16.13 L19.96 17.37 L17.37 19.96 L16.13 18.61 L14.98 19.21 L13.75 19.6 L13.83 21.42 L10.17 21.42 L10.25 19.6 L9.02 19.21 L7.87 18.61 L6.63 19.96 L4.04 17.37 L5.39 16.13 L4.79 14.98 L4.4 13.75 L2.58 13.83 L2.58 10.17 L4.4 10.25 L4.79 9.02 L5.39 7.87 L4.04 6.63 L6.63 4.04 L7.87 5.39 Z"
+    ];
+    const actualNavPaths = await page.locator(".phone-nav > span > svg > path").evaluateAll(
+      nodes => nodes.map(node => node.getAttribute("d"))
+    );
+    assert.deepEqual(actualNavPaths, appNavPaths, "All four preview icons match the actual app SVGs");
+    assert.equal(await page.locator(".phone-nav svg circle").count(),1,"Settings retains its correct gear center");
+    const navGraphics = await page.locator(".phone-nav svg").evaluateAll(nodes =>
+      nodes.map(el=>({width:getComputedStyle(el).width,height:getComputedStyle(el).height,stroke:getComputedStyle(el).stroke}))
+    );
+    assert(navGraphics.every(x=>x.width==="22px"&&x.height==="22px"&&x.stroke!=="none"),
+      "SVGs must render as 22px outlined app icons");
+
     const resort = (key) => page.locator('[data-preview-resort="' + key + '"]');
     const park = (key) => page.locator('[data-preview-park="' + key + '"]');
     const selected = async (button) => assert.equal(await button.getAttribute("aria-pressed"),"true");
