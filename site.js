@@ -4,6 +4,113 @@
   const layer = document.querySelector("#seasonalLayer");
   const trigger = document.querySelector("#seasonSecretTrigger");
   const OVERRIDE_KEY = "parkpulse.site.seasonOverride";
+
+  // 2.0 resort preview: deliberately illustrative numbers, not a live feed.
+  // No autoplay or network requests; resort/park changes are direct user actions.
+  const preview = document.querySelector(".app-showcase");
+  if (preview) {
+    const sampleParks = {
+      wdw: {
+        name: "Walt Disney World",
+        parks: [
+          { id:"mk", label:"🏰 MK", name:"Magic Kingdom", crowd:"5 · Moderate", trend:"↘ easing", rides:[
+            ["TOMORROWLAND","Space Mountain","40","↓ 24% vs typical"],
+            ["FRONTIERLAND","Tiana's Bayou Adventure","55","Operating"],
+            ["FANTASYLAND","Seven Dwarfs Mine Train","65","Operating"]
+          ]},
+          { id:"epcot", label:"🌐 EPCOT", name:"EPCOT", crowd:"6 · Moderate", trend:"→ steady", rides:[
+            ["WORLD DISCOVERY","Guardians of the Galaxy: Cosmic Rewind","45","Example wait"],
+            ["WORLD SHOWCASE","Remy's Ratatouille Adventure","35","Operating"],
+            ["WORLD SHOWCASE","Frozen Ever After","50","Operating"]
+          ]},
+          { id:"dhs", label:"🎬 DHS", name:"Hollywood Studios", crowd:"7 · Busy", trend:"↗ building", rides:[
+            ["GALAXY'S EDGE","Rise of the Resistance","70","Example wait"],
+            ["SUNSET BOULEVARD","Tower of Terror","45","Operating"],
+            ["HOLLYWOOD BOULEVARD","Mickey & Minnie's Runaway Railway","40","Operating"]
+          ]},
+          { id:"ak", label:"🌿 AK", name:"Animal Kingdom", crowd:"4 · Light", trend:"↘ easing", rides:[
+            ["PANDORA","Avatar Flight of Passage","55","Example wait"],
+            ["ASIA","Expedition Everest","25","Operating"],
+            ["AFRICA","Kilimanjaro Safaris","35","Operating"]
+          ]}
+        ]
+      },
+      dlr: {
+        name: "Disneyland Resort",
+        parks: [
+          { id:"dl", label:"🏰 DL", name:"Disneyland Park", crowd:"5 · Moderate", trend:"→ steady", rides:[
+            ["TOMORROWLAND","Space Mountain","35","Example wait"],
+            ["ADVENTURELAND","Indiana Jones Adventure","50","Operating"],
+            ["FRONTIERLAND","Big Thunder Mountain Railroad","30","Operating"]
+          ]},
+          { id:"dca", label:"🎡 DCA", name:"Disney California Adventure", crowd:"6 · Moderate", trend:"↘ easing", rides:[
+            ["CARS LAND","Radiator Springs Racers","60","Example wait"],
+            ["AVENGERS CAMPUS","Guardians of the Galaxy – Mission: BREAKOUT!","45","Operating"],
+            ["PIXAR PIER","Incredicoaster","30","Operating"]
+          ]}
+        ]
+      }
+    };
+    const resortButtons = [...preview.querySelectorAll("[data-preview-resort]")];
+    const parkTabs = preview.querySelector("[data-preview-park-tabs]");
+    const cards = [...preview.querySelectorAll("[data-preview-ride]")];
+    const savedPark = { wdw:"mk", dlr:"dl" };
+    let selectedResort = "wdw";
+
+    const renderPreview = () => {
+      const resort = sampleParks[selectedResort];
+      const park = resort.parks.find((p) => p.id === savedPark[selectedResort]) || resort.parks[0];
+      resortButtons.forEach((button) => {
+        const active = button.dataset.previewResort === selectedResort;
+        button.setAttribute("aria-pressed", String(active));
+      });
+      preview.querySelector("[data-preview-resort-name]").textContent = resort.name;
+      preview.querySelector("[data-preview-park-name]").textContent = park.name;
+      preview.querySelector("[data-preview-search]").textContent = "⌕ Search " + park.name;
+      preview.querySelector("[data-preview-crowd]").textContent = park.crowd;
+      preview.querySelector("[data-preview-crowd-park]").textContent = park.name;
+      preview.querySelector(".floating-crowd > strong").textContent = park.trend;
+
+      // The number of park choices differs by resort. Keep them as real
+      // buttons for keyboard/touch accessibility, never decorative spans.
+      parkTabs.classList.toggle("is-dlr", selectedResort === "dlr");
+      parkTabs.replaceChildren(...resort.parks.map((choice) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = choice.id === park.id ? "active" : "";
+        button.dataset.previewPark = choice.id;
+        button.setAttribute("aria-pressed", String(choice.id === park.id));
+        button.textContent = choice.label;
+        return button;
+      }));
+      cards.forEach((card, index) => {
+        const [land, name, wait, description] = park.rides[index];
+        card.querySelector("div > small").textContent = land;
+        card.querySelector("div > strong").textContent = name;
+        card.querySelector("div > em, div > span").textContent = description;
+        card.querySelector("b").firstChild.nodeValue = wait + " ";
+      });
+      preview.querySelector("[data-preview-alert-name]").textContent = park.rides[0][1];
+      preview.querySelector("[data-preview-alert-text]").textContent =
+        "Example: wait dropped to " + park.rides[0][2] + " min";
+    };
+
+    preview.querySelector(".preview-resort-picker").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-preview-resort]");
+      if (!button || !sampleParks[button.dataset.previewResort]) return;
+      selectedResort = button.dataset.previewResort;
+      renderPreview();
+    });
+    parkTabs.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-preview-park]");
+      const id = button?.dataset.previewPark;
+      if (!sampleParks[selectedResort].parks.some((park) => park.id === id)) return;
+      savedPark[selectedResort] = id;
+      renderPreview();
+    });
+    renderPreview();
+  }
+
   const SEASONS = [
     ["auto", "Automatic"],
     ["none", "None"],
