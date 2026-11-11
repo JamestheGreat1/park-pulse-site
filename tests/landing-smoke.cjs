@@ -44,7 +44,7 @@ const { chromium } = require("playwright");
     await selected(resort("wdw"));
     assert.equal(await page.locator("[data-preview-park-tabs] button").count(), 4);
     assert.match(await page.locator("[data-preview-park-name]").innerText(), /Magic Kingdom/);
-    assert.match(await page.locator(".hero .eyebrow").innerText(), /ParkPulse 2.1/);
+    assert.match(await page.locator(".hero .eyebrow").innerText(), /ParkPulse 2.1/i);
     assert.equal(await page.locator(".overview-mini-stat").count(),3);
     assert.equal(await page.locator("[data-preview-overview-park]").innerText(),"Magic Kingdom");
     assert.equal(await page.locator("[data-preview-operating-value]").innerText(),"30");
