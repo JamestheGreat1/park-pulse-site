@@ -42,11 +42,11 @@
   <main id="top">
     <section class="hero shell">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="live-dot"></span> ParkPulse 2.0 · Florida + California</div>
+        <div class="eyebrow"><span class="live-dot"></span> ParkPulse 2.1 · Florida + California</div>
         <h1>Stop refreshing<br><span>wait times.</span></h1>
         <p class="hero-lede">
-          From Walt Disney World to Disneyland Resort, ParkPulse keeps an eye on the waits
-          so you don't have to. Find a good time to ride, set a watch, and get back to enjoying the park.
+          From Walt Disney World to Disneyland Resort, get a clearer picture of the park at a glance,
+          find a ride worth your time, and let ParkPulse watch the waits while you enjoy your day.
         </p>
 
         <div class="hero-actions">
@@ -84,10 +84,14 @@
             <button type="button" data-preview-resort="dlr" aria-pressed="false">Disneyland Resort</button>
           </div>
 
-          <div class="phone-card hero-mini">
-            <small data-preview-resort-name>Walt Disney World</small>
-            <strong>Stop refreshing wait times.</strong>
-            <span>Pick a wait you'd actually take. We'll keep an eye on it.</span>
+          <div class="phone-card hero-mini overview-mini" data-preview-mood="mk">
+            <div class="overview-mini-top"><small data-preview-resort-name>Walt Disney World</small><em>● OPEN</em></div>
+            <strong data-preview-overview-park>Magic Kingdom</strong>
+            <div class="overview-mini-stats" role="group" aria-label="Illustrative park overview statistics">
+              <div class="overview-mini-stat stat-open"><b><span data-preview-operating-value>30</span><span class="stat-unit" data-preview-operating-total>/35</span></b><small>Operating</small></div>
+              <div class="overview-mini-stat stat-wait"><b><span data-preview-median-value>55</span><span class="stat-unit">min</span></b><small>Median live wait</small></div>
+              <div class="overview-mini-stat stat-crowd"><b><span data-preview-crowd-value>5</span><span class="stat-unit">/10</span></b><small>Crowd pressure</small><span class="overview-mini-trend" data-preview-trend>↘ Easing</span></div>
+            </div>
           </div>
 
           <div class="park-tabs" role="group" aria-label="Select an example park" data-preview-park-tabs>
@@ -157,11 +161,11 @@
       <div class="feature-grid">
         <article class="feature-card feature-large liquid-glass">
           <div class="feature-large-copy">
-            <div class="feature-heading"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6 6 4-4 8 8M15 16h6v-6"/></svg></span><small>BEST NOW</small></div>
+            <div class="feature-heading"><span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6 6 4-4 8 8M15 16h6v-6"/></svg></span><small>WORTH A LOOK</small></div>
             <h3>A short wait isn't always a good wait.</h3>
             <p>
               A 45-minute wait can be awesome for one ride and terrible for another.
-              Best Now compares the current wait with what that ride normally looks like around the same time.
+              Worth a Look puts one promising ride right on your dashboard, backed by Best Now comparisons when enough history is available.
             </p>
           </div>
           <div class="comparison-demo" aria-label="Example: current wait 40 minutes, typical wait 53 minutes">

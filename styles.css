@@ -954,3 +954,81 @@ body{
 @media(prefers-reduced-motion:reduce){
   .preview-resort-picker button{transition:none}
 }
+
+
+/* ParkPulse 2.1 — illustrate the actual compact, park-first overview,
+   while clearly retaining the site's "sample data" disclosure. */
+.overview-mini{
+  --park-rgb:81,145,242;
+  --spark-rgb:168,115,237;
+  gap:7px;
+  padding:13px 12px 12px;
+  border-color:rgba(var(--park-rgb),.38);
+  background:
+    radial-gradient(ellipse at 10% 0%,rgba(var(--park-rgb),.29),transparent 80%),
+    radial-gradient(ellipse at 100% 100%,rgba(var(--spark-rgb),.15),transparent 75%),
+    rgba(255,255,255,.045);
+}
+.overview-mini[data-preview-mood="epcot"]{--park-rgb:65,170,195;--spark-rgb:95,181,243}
+.overview-mini[data-preview-mood="dhs"]{--park-rgb:241,147,107;--spark-rgb:224,106,173}
+.overview-mini[data-preview-mood="ak"]{--park-rgb:109,166,108;--spark-rgb:201,174,103}
+.overview-mini[data-preview-mood="dl"]{--park-rgb:143,127,220;--spark-rgb:109,172,231}
+.overview-mini[data-preview-mood="dca"]{--park-rgb:216,146,86;--spark-rgb:101,170,218}
+.overview-mini .overview-mini-top{
+  display:flex;align-items:center;justify-content:space-between;gap:7px;min-width:0;
+}
+.overview-mini .overview-mini-top small{
+  color:var(--muted);font-size:.56rem;line-height:1.2;font-weight:820;
+  letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.overview-mini .overview-mini-top em{
+  flex:0 0 auto;padding:4px 7px;border:1px solid rgba(101,214,158,.28);
+  border-radius:999px;background:rgba(66,190,133,.13);color:#83efbd;
+  font-size:.54rem;font-weight:850;line-height:1;font-style:normal;letter-spacing:.045em;
+}
+.overview-mini>strong{color:var(--text);font-size:1.14rem;line-height:1.12;letter-spacing:-.035em}
+.overview-mini .overview-mini-stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;align-items:stretch;
+}
+.overview-mini .overview-mini-stat{
+  position:relative;min-width:0;min-height:76px;padding:8px 7px 6px;
+  display:grid;grid-template-rows:22px minmax(26px,auto);align-content:start;row-gap:4px;
+  border-radius:11px;border:1px solid rgba(255,255,255,.13);
+  box-shadow:inset 3px 0 rgba(255,255,255,.15);
+}
+.overview-mini .overview-mini-stat.stat-open{
+  background:linear-gradient(135deg,rgba(73,204,149,.28),rgba(73,204,149,.07));
+  border-color:rgba(73,204,149,.32);box-shadow:inset 3px 0 rgba(73,204,149,.8);
+}
+.overview-mini .overview-mini-stat.stat-wait{
+  background:linear-gradient(135deg,rgba(88,163,239,.26),rgba(88,163,239,.075));
+  border-color:rgba(88,163,239,.32);box-shadow:inset 3px 0 rgba(88,163,239,.8);
+}
+.overview-mini .overview-mini-stat.stat-crowd{
+  background:linear-gradient(135deg,rgba(238,171,91,.26),rgba(238,171,91,.075));
+  border-color:rgba(238,171,91,.34);box-shadow:inset 3px 0 rgba(238,171,91,.8);
+}
+.overview-mini .overview-mini-stat b{
+  display:flex;align-items:baseline;gap:2px;height:22px;min-width:0;
+  font-size:1.04rem;font-weight:850;line-height:22px;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.overview-mini .overview-mini-stat b>span{font-size:inherit;line-height:inherit;color:var(--text)}
+.overview-mini .overview-mini-stat b>.stat-unit{
+  color:var(--muted);font-size:.64em;line-height:1;font-weight:750;letter-spacing:0;
+}
+.overview-mini .overview-mini-stat small{
+  color:var(--muted);font-size:.57rem;line-height:1.16;
+  font-weight:680;text-transform:none;letter-spacing:0;
+}
+.overview-mini .overview-mini-stat .overview-mini-trend{
+  display:block;align-self:start;grid-column:1;line-height:1.05;
+  color:#f8cb8a;font-size:.53rem;font-weight:820;white-space:nowrap;
+}
+@media(max-width:420px){
+  .overview-mini{padding:11px 10px}
+  .overview-mini .overview-mini-stats{gap:5px}
+  .overview-mini .overview-mini-stat{padding:7px 6px 6px;min-height:73px}
+  .overview-mini .overview-mini-stat b{font-size:1rem}
+  .overview-mini .overview-mini-stat small{font-size:.54rem}
+}
