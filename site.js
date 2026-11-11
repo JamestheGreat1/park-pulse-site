@@ -5,7 +5,7 @@
   const trigger = document.querySelector("#seasonSecretTrigger");
   const OVERRIDE_KEY = "parkpulse.site.seasonOverride";
 
-  // 2.0 resort preview: deliberately illustrative numbers, not a live feed.
+  // 2.1 compact dashboard preview: illustrative numbers, not a live feed.
   // No autoplay or network requests; resort/park changes are direct user actions.
   const preview = document.querySelector(".app-showcase");
   if (preview) {
@@ -66,6 +66,18 @@
       });
       preview.querySelector("[data-preview-resort-name]").textContent = resort.name;
       preview.querySelector("[data-preview-park-name]").textContent = park.name;
+      preview.querySelector("[data-preview-overview-park]").textContent = park.name;
+      preview.querySelector(".overview-mini").dataset.previewMood = park.id;
+      // Display clearly illustrative sample data, never real-time park counts.
+      const exampleOperating = {mk:[30,35],epcot:[17,21],dhs:[16,20],ak:[15,18],dl:[29,34],dca:[18,22]};
+      const [operating,known] = exampleOperating[park.id];
+      const median = park.rides.map(ride => Number(ride[2])).sort((a,b) => a-b)[1];
+      preview.querySelector("[data-preview-operating-value]").textContent = String(operating);
+      preview.querySelector("[data-preview-operating-total]").textContent = "/" + known;
+      preview.querySelector("[data-preview-median-value]").textContent = String(median);
+      preview.querySelector("[data-preview-crowd-value]").textContent = park.crowd.split(" ")[0];
+      preview.querySelector("[data-preview-trend]").textContent =
+        park.trend.replace(/building/i,"Growing").replace(/easing/i,"Easing").replace(/steady/i,"Steady");
       preview.querySelector("[data-preview-search]").textContent = "⌕ Search " + park.name;
       preview.querySelector("[data-preview-crowd]").textContent = park.crowd;
       preview.querySelector("[data-preview-crowd-park]").textContent = park.name;

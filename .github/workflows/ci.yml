@@ -10,8 +10,8 @@ permissions:
 
 jobs:
   landing:
-    name: Landing page 2.0 browser smoke
-    runs-on: ubuntu-latest
+    name: Landing page 2.1 browser smoke
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +20,27 @@ jobs:
           node-version: '24'
       - name: Check landing JavaScript syntax
         run: node --check site.js
+      - name: Verify live ParkPulse 2.1.0 and its original PWA scope
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 12); do
+            if curl -fsSL --max-time 15 "https://app.useparkpulse.com/version.json?release_check=${GITHUB_RUN_ID}" -o /tmp/parkpulse-version.json \
+              && grep -q '"version": "2.1.0"' /tmp/parkpulse-version.json \
+              && grep -q '"channel": "stable"' /tmp/parkpulse-version.json \
+              && curl -fsSL --max-time 15 "https://app.useparkpulse.com/service-worker.js?release_check=${GITHUB_RUN_ID}" -o /tmp/parkpulse-sw.js \
+              && grep -q 'CACHE_NAME = "parkpulse-2.1.0"' /tmp/parkpulse-sw.js \
+              && curl -fsSL --max-time 15 "https://app.useparkpulse.com/index.html?release_check=${GITHUB_RUN_ID}" -o /tmp/parkpulse-index.html \
+              && grep -q 'app.js?v=2.1.0' /tmp/parkpulse-index.html \
+              && curl -fsSL --max-time 15 'https://app.useparkpulse.com/assets/js/app.js?v=2.1.0' -o /tmp/parkpulse-app.js \
+              && grep -q 'const APP_VERSION = "2.1.0"' /tmp/parkpulse-app.js; then
+              echo 'PASS: live 2.1.0 version and same-root service worker'
+              exit 0
+            fi
+            echo "Live 2.1 verification not ready; attempt ${attempt}/12"
+            sleep 10
+          done
+          echo 'FAIL: public app version/cache is not consistent with 2.1.0'
+          exit 1
       - name: Install pinned browser test dependency
         run: npm install --no-save --package-lock=false playwright@1.56.1
       - name: Install Chromium

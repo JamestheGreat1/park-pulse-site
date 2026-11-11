@@ -44,6 +44,13 @@ const { chromium } = require("playwright");
     await selected(resort("wdw"));
     assert.equal(await page.locator("[data-preview-park-tabs] button").count(), 4);
     assert.match(await page.locator("[data-preview-park-name]").innerText(), /Magic Kingdom/);
+    assert.match(await page.locator(".hero .eyebrow").innerText(), /ParkPulse 2.1/i);
+    assert.equal(await page.locator(".overview-mini-stat").count(),3);
+    assert.equal(await page.locator("[data-preview-overview-park]").innerText(),"Magic Kingdom");
+    assert.equal(await page.locator("[data-preview-operating-value]").innerText(),"30");
+    assert.equal(await page.locator("[data-preview-operating-total]").innerText(),"/35");
+    assert.equal(await page.locator("[data-preview-median-value]").innerText(),"55");
+    assert.match(await page.locator("[data-preview-trend]").innerText(),/Easing/);
     await park("epcot").click();
     await selected(park("epcot"));
     assert.equal(await page.locator("[data-preview-park-name]").innerText(),"EPCOT");
@@ -58,6 +65,9 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("[data-preview-park-name]").innerText(),"Disney California Adventure");
     assert.match(await page.locator('[data-preview-ride="0"]').innerText(),/Radiator Springs Racers/);
     assert.match(await page.locator("[data-preview-alert-name]").innerText(),/Radiator Springs Racers/);
+    assert.equal(await page.locator("[data-preview-overview-park]").innerText(),"Disney California Adventure");
+    assert.equal(await page.locator("[data-preview-median-value]").innerText(),"45");
+    assert.equal(await page.locator(".overview-mini").getAttribute("data-preview-mood"),"dca");
     await resort("wdw").click();
     await selected(park("epcot")); // switching resorts remembers last selected park
 
@@ -70,7 +80,8 @@ const { chromium } = require("playwright");
           const inner=[
             ...document.querySelectorAll(".preview-resort-picker button"),
             ...document.querySelectorAll(".park-tabs button"),
-            ...document.querySelectorAll(".phone-nav > span")
+            ...document.querySelectorAll(".phone-nav > span"),
+            ...document.querySelectorAll(".overview-mini-stat")
           ].map(el=>el.getBoundingClientRect());
           return {
             scrollWidth:document.documentElement.scrollWidth,
@@ -86,7 +97,7 @@ const { chromium } = require("playwright");
     }
     assert.equal(await page.locator("#seasonalLayer").count(),1,"Keep existing seasonal animations");
     assert.deepEqual(failures, [], "No unhandled client JavaScript errors");
-    console.log("PASS: 2.0 landing content, both resorts, six parks, mobile layout, seasonal layer");
+    console.log("PASS: 2.1 dashboard preview, both resorts, six parks, mobile layout, seasonal layer");
   } finally {
     await browser.close();
   }
